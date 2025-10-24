@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Clock, ChevronRight, Star, MessageSquare, Mic, Droplet, Baby } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Menu, X, Phone, Mail, MapPin, Clock, ChevronRight, MessageSquare, Mic, Droplet, Baby } from 'lucide-react';
+import Testimonials from './components/Testimonials';
+import { PraxisImageSwiper } from './components/ui/praxis-image-swiper';
+import BackToTopButton from './components/ui/BackToTopButton';
+import Impressum from './pages/Impressum';
+import Datenschutz from './pages/Datenschutz';
 
-function App() {
+function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -16,41 +22,23 @@ function App() {
   const services = [
     {
       title: 'Sprachtherapie',
-      description: 'Behandlung von Sprachentwicklungsstörungen bei Kindern und Erwachsenen',
+      description: 'Behandlung von Sprachstörungen bei Kindern, Jugendlichen und Erwachsenen',
       icon: MessageSquare
     },
     {
-      title: 'Stimmtherapie',
-      description: 'Behandlung von Stimmproblemen und Stimmstörungen',
+      title: 'Sprechtherapie',
+      description: 'Behandlung von Sprechstörungen bei Kindern, Jugendlichen und Erwachsenen',
       icon: Mic
     },
     {
       title: 'Schlucktherapie',
-      description: 'Therapie bei Schluckstörungen (Dysphagie)',
+      description: 'Behandlung von Schluckstörungen bei Kindern, Jugendlichen und Erwachsenen',
       icon: Droplet
     },
     {
-      title: 'Kindertherapie',
-      description: 'Spielerische Förderung der Sprachentwicklung',
+      title: 'Stimmtherapie',
+      description: 'Behandlung von Stimmstörungen bei Kindern, Jugendlichen und Erwachsenen',
       icon: Baby
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Familie Müller',
-      text: 'Dank der einfühlsamen Therapie hat unser Sohn große Fortschritte gemacht. Wir sind sehr dankbar!',
-      rating: 5
-    },
-    {
-      name: 'Anna Schmidt',
-      text: 'Professionell, herzlich und kompetent. Die Behandlung hat mir sehr geholfen.',
-      rating: 5
-    },
-    {
-      name: 'Thomas Weber',
-      text: 'Nach meinem Schlaganfall wurde ich hier hervorragend betreut. Sehr empfehlenswert!',
-      rating: 5
     }
   ];
 
@@ -67,15 +55,16 @@ function App() {
               <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-xl">L</span>
               </div>
-              <span className={`font-bold text-xl transition-colors duration-300 ${
+              <span className={`font-bold text-xl transition-colors duration-300 font-sans ${
                 scrolled ? 'text-gray-800' : 'text-white'
               }`}>
-                LogoPraxis
+                <span className="hidden md:inline font-light tracking-wide">Praxis für Logopädie Andrea Birkendorf</span>
+                <span className="md:hidden font-light tracking-wide">Praxis für Logopädie</span>
               </span>
             </div>
 
             <div className="hidden md:flex items-center space-x-8">
-              {['Leistungen', 'Über uns', 'Team', 'Kontakt'].map((item, index) => (
+              {['Leistungen', 'Über uns', 'Kontakt'].map((item, index) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase().replace(' ', '-')}`}
@@ -95,21 +84,23 @@ function App() {
               </a>
             </div>
 
-            <button
-              className={`md:hidden transition-colors duration-300 ${
-                scrolled ? 'text-gray-800' : 'text-white'
-              }`}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                className={`md:hidden transition-colors duration-300 ${
+                  scrolled ? 'text-gray-800' : 'text-white'
+                }`}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </nav>
         </div>
 
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg animate-slide-down">
             <div className="container mx-auto px-4 py-4 space-y-4">
-              {['Leistungen', 'Über uns', 'Team', 'Kontakt'].map((item) => (
+              {['Leistungen', 'Über uns', 'Kontakt'].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase().replace(' ', '-')}`}
@@ -211,21 +202,80 @@ function App() {
 
       <section id="über-uns" className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">
+              Über unsere Praxis
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-cyan-600 mx-auto mb-6"></div>
+          </div>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-fade-in-up">
-              <h2 className="text-4xl sm:text-5xl font-bold text-gray-800">
-                Über unsere Praxis
-              </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-cyan-600"></div>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Seit über 15 Jahren sind wir Ihre Ansprechpartner für logopädische Therapie in der Region.
-                Mit Leidenschaft und Fachwissen begleiten wir Menschen jeden Alters auf ihrem Weg zu besserer
-                Kommunikation und Lebensqualität.
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Unser erfahrenes Team arbeitet nach neuesten wissenschaftlichen Erkenntnissen und legt großen
-                Wert auf eine individuelle, patientenorientierte Therapie in angenehmer Atmosphäre.
-              </p>
+            <div className="space-y-8 animate-fade-in-up">
+              
+              <div className="bg-teal-50 p-6 rounded-2xl border-l-4 border-teal-500">
+                <p className="text-lg text-gray-700 leading-relaxed font-medium">
+                  In der Praxis für Logopädie Andrea Birkendorf werden Sprach-, Sprech-, Schluck- und Stimmstörungen bei Kindern, Jugendlichen und Erwachsenen behandelt.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-3 h-3 bg-teal-500 rounded-full"></div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-800 mb-1">Unser Standort</h3>
+                      <p className="text-gray-600">
+                        Die Praxis befindet sich in der Gemeinde Swisttal, Ortsteil Buschhoven. Kostenfreie Parkplätze sind direkt an der Praxis verfügbar.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-cyan-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-3 h-3 bg-cyan-500 rounded-full"></div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-800 mb-1">Hausbesuche</h3>
+                      <p className="text-gray-600">
+                        Patienten, die aus gesundheitlichen Gründen häuslich gebunden sind, werden bei ärztlicher Verordnung auch zu Hause behandelt.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-800 mb-1">Logopädie als Heilmittel</h3>
+                      <p className="text-gray-600">
+                        Logopädie ist ein Heilmittel, das von Ärzten verschrieben wird und Bestandteil der Krankenkassenleistung ist.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-800 mb-1">Unser Qualitätsanspruch</h3>
+                      <p className="text-gray-600">
+                        Wir legen großen Wert auf fachliche Fortbildungen sowie interdisziplinären und kollegialen Austausch.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 p-6 rounded-2xl text-center">
+                <p className="text-gray-700">
+                  <span className="font-semibold">Behandelt werden:</span> Kinder, Jugendliche und Erwachsene
+                </p>
+              </div>
               <div className="grid sm:grid-cols-3 gap-6 pt-6">
                 <div className="text-center p-4 bg-teal-50 rounded-xl">
                   <div className="text-3xl font-bold text-teal-600 mb-2">15+</div>
@@ -242,52 +292,20 @@ function App() {
               </div>
             </div>
 
-            <div className="relative animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-teal-500 to-cyan-600 p-1">
-                <div className="w-full h-full bg-gray-100 rounded-3xl flex items-center justify-center">
-                  <div className="text-center text-gray-400">
-                    <div className="text-6xl mb-4">🏥</div>
-                    <p className="text-lg">Praxisräume</p>
-                  </div>
-                </div>
+            <div className="relative animate-fade-in-up flex items-center justify-center" style={{ animationDelay: '200ms' }}>
+              <div className="image-swiper-container">
+                <PraxisImageSwiper
+                  cardWidth={480}
+                  cardHeight={600}
+                  className="mx-auto w-full h-full"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-br from-teal-50 to-cyan-50">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">
-              Das sagen unsere Patienten
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-cyan-600 mx-auto"></div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={testimonial.name}
-                className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 animate-fade-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={20} className="fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-600 italic mb-6 leading-relaxed">
-                  "{testimonial.text}"
-                </p>
-                <p className="font-semibold text-gray-800">
-                  {testimonial.name}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Testimonials />
 
       <section id="kontakt" className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
@@ -309,7 +327,7 @@ function App() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-800 mb-2">Telefon</h3>
-                  <p className="text-gray-600">+49 (0) 123 456789</p>
+                  <p className="text-gray-600">02226 / 905 917</p>
                   <p className="text-sm text-gray-500 mt-1">Mo-Fr: 8:00 - 18:00 Uhr</p>
                 </div>
               </div>
@@ -320,7 +338,7 @@ function App() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-800 mb-2">E-Mail</h3>
-                  <p className="text-gray-600">info@logopraxis.de</p>
+                  <p className="text-gray-600">info@logopaedie-birkendorf.de</p>
                 </div>
               </div>
 
@@ -331,8 +349,8 @@ function App() {
                 <div>
                   <h3 className="font-semibold text-gray-800 mb-2">Adresse</h3>
                   <p className="text-gray-600">
-                    Musterstraße 123<br />
-                    12345 Musterstadt
+                    Bolsgasse 21<br />
+                    53913 Swisttal
                   </p>
                 </div>
               </div>
@@ -397,47 +415,31 @@ function App() {
 
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-xl">L</span>
                 </div>
-                <span className="font-bold text-xl">LogoPraxis</span>
+                <span className="font-bold text-xl font-light tracking-wide">Praxis für Logopädie Andrea Birkendorf</span>
               </div>
               <p className="text-gray-400">
-                Professionelle logopädische Therapie mit Herz und Verstand.
+                Professionelle logopädische Therapie für Kinder und Erwachsene in herzlicher Atmosphäre
               </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-lg mb-4">Schnelllinks</h4>
-              <ul className="space-y-2">
-                {['Leistungen', 'Über uns', 'Team', 'Kontakt'].map((item) => (
-                  <li key={item}>
-                    <a
-                      href={`#${item.toLowerCase().replace(' ', '-')}`}
-                      className="text-gray-400 hover:text-teal-400 transition-colors duration-300"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
             </div>
 
             <div>
               <h4 className="font-semibold text-lg mb-4">Rechtliches</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-teal-400 transition-colors duration-300">
+                  <Link to="/impressum" className="text-gray-400 hover:text-teal-400 transition-colors duration-300">
                     Impressum
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-400 hover:text-teal-400 transition-colors duration-300">
+                  <Link to="/datenschutz" className="text-gray-400 hover:text-teal-400 transition-colors duration-300">
                     Datenschutz
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -448,7 +450,20 @@ function App() {
           </div>
         </div>
       </footer>
+      <BackToTopButton />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/impressum" element={<Impressum />} />
+        <Route path="/datenschutz" element={<Datenschutz />} />
+      </Routes>
+    </Router>
   );
 }
 

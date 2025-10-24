@@ -1,0 +1,26 @@
+# Platzhalterfotos für die Logopädie-Praxis
+
+## Verwendete Unsplash-Bilder (10 Stück) - Alle getestet und funktionierend:
+
+1. Helle Praxis: https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop
+2. Empfang: https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop
+3. Behandlungsraum: https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&h=600&fit=crop
+4. Kindertherapieraum: https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop
+5. Helle Praxis mit Pflanzen: https://images.unsplash.com/photo-1559839734-49b963a8a9a2?w=800&h=600&fit=crop
+6. Empfangsbereich: https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop
+7. Therapieraum: https://images.unsplash.com/photo-1551076805-e6902ab926bb?w=800&h=600&fit=crop
+8. Wartezimmer: https://images.unsplash.com/photo-1584308666744-24d5c474f2ab?w=800&h=600&fit=crop
+9. Modernes Behandlungszimmer: https://images.unsplash.com/photo-1587825140708-dfaf72ae4fc7?w=800&h=600&fit=crop
+10. Zusätzlicher Behandlungsraum: https://images.unsplash.com/photo-1587825140708-dfaf72ae4fc7?w=800&h=600&fit=crop
+
+## Eigene Bilder hinzufügen:
+
+Um eigene Bilder zu verwenden:
+1. Benennen Sie Ihre Bilder als praxis1.jpg, praxis2.jpg, etc.
+2. Legen Sie sie in diesem Ordner ab: /public/images/praxis/
+3. Ändern Sie in der PraxisImageSwiper-Komponente die Zeile:
+   const imageUrls = fallbackImages.join(',');
+   zu:
+   const imageUrls = praxisImages.join(',');
+
+Alle Bilder sollten im Format 800x600 Pixel oder größer sein für beste Darstellung.
